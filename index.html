@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for Recruitment Agencies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+            max-width: 900px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #8B5CF6;
+        }
+
+        p {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #e2e8f0;
+        }
+
+        .subtitle {
+            font-size: 1.6rem;
+            color: #a78bfa;
+            margin-bottom: 40px;
+        }
+
+        .pain-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .pain-point {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .pain-point h4 {
+            font-size: 1.3rem;
+            color: #8B5CF6;
+            margin-bottom: 15px;
+        }
+
+        .pain-point p {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .ai-solutions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .solution {
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: left;
+        }
+
+        .solution h4 {
+            font-size: 1.4rem;
+            color: #EC4899;
+            margin-bottom: 15px;
+        }
+
+        .solution p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .benefit {
+            color: #34d399;
+            font-weight: bold;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #34d399;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: #a78bfa;
+        }
+
+        .cta-section {
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(139, 92, 246, 0.3);
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(139, 92, 246, 0.6);
+        }
+
+        .slide-counter {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(139, 92, 246, 0.3);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+        }
+
+        .list {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .list li {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide-counter">
+            <span id="slideNumber">1</span> / <span id="totalSlides">8</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>The CV Mountain</h1>
+            <p class="subtitle">Why recruitment agencies are drowning in resumes and losing their best candidates</p>
+            <p>What if I told you the top agencies are placing 3x more candidates with half the effort using tools most recruiters don't even know exist?</p>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide">
+            <h2>You Didn't Get Into Recruitment for This</h2>
+            <div class="pain-points">
+                <div class="pain-point">
+                    <h4>📄 CV Hell</h4>
+                    <p>500 CVs for one role. 90% are rubbish. You're drowning in keyword searches that don't work.</p>
+                </div>
+                <div class="pain-point">
+                    <h4>⏰ Speed Dating Nightmare</h4>
+                    <p>By the time you screen candidates, the good ones are already placed elsewhere.</p>
+                </div>
+                <div class="pain-point">
+                    <h4>💰 Pipeline Chaos</h4>
+                    <p>Candidates drop out last minute. Clients get impatient. Your commission walks out the door.</p>
+                </div>
+            </div>
+            <p>Here's the brutal truth: You're doing admin work when you should be relationship building. And it's killing your placements.</p>
+        </div>
+
+        <!-- Slide 3: AI Solutions -->
+        <div class="slide">
+            <h2>What if AI Did the Grunt Work?</h2>
+            <div class="ai-solutions">
+                <div class="solution">
+                    <h4>🎯 Your CV Screening Assistant</h4>
+                    <p>Imagine AI reading every CV in seconds, scoring candidates on 50+ criteria, and serving you the top 5% on a silver platter. No more keyword hunting.</p>
+                    <p class="benefit">One agency went from 8 hours to 15 minutes of CV screening</p>
+                </div>
+                <div class="solution">
+                    <h4>🚀 The Speed Demon</h4>
+                    <p>While your competitors are still reading CVs, you're already calling the perfect candidates. AI finds them before they're even visible to others.</p>
+                    <p class="benefit">Get to quality candidates 2-3 days before everyone else</p>
+                </div>
+                <div class="solution">
+                    <h4>📞 Never Miss a Placement</h4>
+                    <p>AI tracks every candidate interaction, flags hot prospects, and reminds you exactly when to follow up. Nothing falls through the cracks.</p>
+                    <p class="benefit">Reduce candidate drop-out by 67%</p>
+                </div>
+                <div class="solution">
+                    <h4>🎨 The Perfect Match Maker</h4>
+                    <p>Stop guessing if someone's a fit. AI analyzes soft skills, cultural fit, and career progression to predict success before the interview.</p>
+                    <p class="benefit">Placement success rate jumps to 85%+</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Real Results -->
+        <div class="slide">
+            <h2>Here's What Really Happens</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">3x</div>
+                    <div class="stat-label">More placements per month</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">89%</div>
+                    <div class="stat-label">Less time on admin</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">24hrs</div>
+                    <div class="stat-label">Faster candidate turnaround</div>
+                </div>
+            </div>
+            <p>One agency owner told me: "I used to spend weekends going through CVs. Now I spend them with my family while AI handles the screening."</p>
+            <p style="margin-top: 30px; font-style: italic; color: #a78bfa;">That's what happens when technology handles the work that doesn't need your people skills.</p>
+        </div>
+
+        <!-- Slide 5: Specific Use Cases -->
+        <div class="slide">
+            <h2>The Stuff Nobody Talks About</h2>
+            <div class="list">
+                <ul>
+                    <li><strong>That pile of 400 CVs for a software engineer role?</strong> AI ranks them by actual coding skills, not just keyword matching</li>
+                    <li><strong>Candidate ghosted you after 3 interviews?</strong> AI flagged them as high-risk 2 weeks ago based on behavior patterns</li>
+                    <li><strong>Client wants someone "culture fit"?</strong> AI analyzes personality traits from CV language and social profiles</li>
+                    <li><strong>Need a quick replacement for a dropout?</strong> AI already has 5 backup candidates ranked and ready</li>
+                    <li><strong>Wondering if that candidate will accept the offer?</strong> AI predicts acceptance probability based on 200+ data points</li>
+                    <li><strong>Lost track of where candidates are in your process?</strong> AI sends you a daily digest of who needs what attention</li>
+                </ul>
+            </div>
+            <p style="margin-top: 30px; font-style: italic; color: #8B5CF6;">This isn't some fancy future tech. This is Thursday at agencies that cracked the code.</p>
+        </div>
+
+        <!-- Slide 6: Common Concerns -->
+        <div class="slide">
+            <h2>But What About...?</h2>
+            <div class="ai-solutions">
+                <div class="solution">
+                    <h4>🤖 "AI can't judge people"</h4>
+                    <p>You're right. But it can eliminate the 80% who clearly don't fit, so you spend time judging the 20% who might be perfect.</p>
+                </div>
+                <div class="solution">
+                    <h4>📊 "What if it misses good candidates?"</h4>
+                    <p>Fair worry. That's why it ranks, not eliminates. You still see everyone, just in order of likelihood to succeed.</p>
+                </div>
+                <div class="solution">
+                    <h4>💰 "Sounds expensive"</h4>
+                    <p>One placement pays for 6 months of AI. Most agencies break even in their first week of using it.</p>
+                </div>
+                <div class="solution">
+                    <h4>⚡ "Too complicated to set up"</h4>
+                    <p>If you can upload a CV to your system, you can use this. Most recruiters are up and running in under an hour.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Next Steps -->
+        <div class="slide">
+            <h2>The Truth About Recruitment AI</h2>
+            <p class="subtitle">It's not about replacing recruiters. It's about replacing the stuff that stops you from being a great recruiter.</p>
+            <p>Every successful agency owner I know has the same frustration: They're brilliant at matching people but trapped doing data entry.</p>
+            <div class="pain-points">
+                <div class="pain-point">
+                    <h4>🎯 What to Automate First</h4>
+                    <p>Not every process should be automated. Which ones will get you back to actual recruiting?</p>
+                </div>
+                <div class="pain-point">
+                    <h4>📋 Start Small, Win Big</h4>
+                    <p>The agencies crushing it started with CV screening, perfected it, then expanded.</p>
+                </div>
+                <div class="pain-point">
+                    <h4>🚀 Your Niche Matters</h4>
+                    <p>Tech recruitment is different from finance. Contract placements need different AI than permanent ones.</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px; font-style: italic; color: #EC4899;">The question isn't whether AI will change recruitment. It's whether you'll use it to win or watch others win with it.</p>
+        </div>
+
+        <!-- Slide 8: CTA -->
+        <div class="slide">
+            <div class="cta-section">
+                <h2>Let's Talk Real Numbers</h2>
+                <p>I'm not here to sell you a dream. I'm here to show you exactly what AI could do for YOUR agency.</p>
+                <p>In 30 minutes, I'll show you:</p>
+                <div class="list">
+                    <ul>
+                        <li>Exactly how many hours you could save on CV screening (with real examples from your niche)</li>
+                        <li>What your placement numbers could look like with AI doing the grunt work</li>
+                        <li>A realistic timeline that won't disrupt your current candidates or clients</li>
+                        <li>The actual investment vs. what you'll make back in your first month</li>
+                    </ul>
+                </div>
+                <button class="cta-button" onclick="window.open('https://calendly.com/adham-hamza/discovery', '_blank')">
+                    Book a No-Nonsense Strategy Call
+                </button>
+                <p style="margin-top: 20px; font-size: 1rem; color: #a78bfa;">
+                    30 minutes • Zero fluff • You'll walk away with a clear plan (whether we work together or not)
+                </p>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" onclick="changeSlide(-1)">← Previous</button>
+            <button class="nav-btn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const slideNumber = document.getElementById('slideNumber');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            slideNumber.textContent = currentSlide;
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        // Initialize
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight') changeSlide(1);
+            if (event.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        // Touch/swipe support for mobile
+        let startX = 0;
+        document.addEventListener('touchstart', function(event) {
+            startX = event.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', function(event) {
+            const endX = event.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) { // Minimum swipe distance
+                if (diff > 0) changeSlide(1); // Swipe left - next slide
+                else changeSlide(-1); // Swipe right - previous slide
+            }
+        });
+    </script>
+</body>
+</html>
